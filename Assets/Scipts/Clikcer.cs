@@ -10,12 +10,16 @@ public class Clikcer : MonoBehaviour
     public float duration = 0.1f;
     public Ease ease;
 
+    [Header("Sound")]
+    public AudioClip clickSound;
 
-    private int clicks = 0;
+
+    private AudioSource audioSource;
+    [HideInInspector] public int clicks = 0;
     
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -28,6 +32,9 @@ public class Clikcer : MonoBehaviour
     {
         clicks++;
         UiManager.instance.UpdateClicks(clicks);
+
+        audioSource.pitch = Random.Range(0.9f, 1.1f);
+        audioSource.PlayOneShot(clickSound);
 
         transform
             .DOScale(1, duration)
