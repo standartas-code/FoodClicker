@@ -8,13 +8,25 @@ public class Clicker : MonoBehaviour
     public float duration = 0.1f;
     public Ease ease;
 
+    [Header("Sound")]
+    public AudioClip clickSound;
 
-    private int clicks = 0;
+    [HideInInspector]public int clicks = 0;
+
+    private AudioSource audioSource;
+   
+    private void Start() 
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     private void OnMouseDown() 
     {
         clicks++;
         UiManager.instance.UpdateClicks(clicks);
+        audioSource.pitch = Random.Range(0.9f, 1.1f);
+        audioSource.PlayOneShot(clickSound);
+
         transform
             .DOScale(1, duration)
             .ChangeStartValue(scale * Vector3.one)
