@@ -13,6 +13,9 @@ public class Clikcer : MonoBehaviour
     [Header("Sound")]
     public AudioClip clickSound;
 
+    [Header("Particles")]
+    public ParticleSystem clickParticles;
+
 
     private AudioSource audioSource;
     [HideInInspector] public int clicks = 0;
@@ -30,6 +33,8 @@ public class Clikcer : MonoBehaviour
 
     private void OnMouseDown() 
     {
+        clickParticles.Emit(1);
+
         clicks++;
         UiManager.instance.UpdateClicks(clicks);
 
