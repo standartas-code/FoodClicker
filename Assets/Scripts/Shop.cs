@@ -8,6 +8,8 @@ public class Shop : MonoBehaviour
     public ShopButton chefButton;
     public int chefPrice = 10;
     public int chefCount = 0;
+    public int chefClickValue = 1;
+    public float chefClickTime = 1f;
 
     private Clicker clicker;
 
@@ -15,6 +17,7 @@ public class Shop : MonoBehaviour
     {
         clicker = FindObjectOfType<Clicker>();
         chefButton.UpdateText(chefPrice, chefCount);
+        InvokeRepeating("ChefClick", 0, chefClickTime);
     }
 
     public void BuyChef()
@@ -28,5 +31,14 @@ public class Shop : MonoBehaviour
             chefPrice = Mathf.RoundToInt(chefPrice * 1.5f);//increase price by 15%
             chefButton.UpdateText(chefPrice, chefCount);
         }
+    }
+
+    public void ChefClick()
+    {
+        var particles = Mathf.Min(chefCount * chefClickValue, 100);
+        clicker.clickVFX.Emit(particles);
+
+        clicker.clicks += chefClickValue * chefCount;
+        UiManager.instance.UpdateClicks(clicker.clicks);
     }
 }
